@@ -15,29 +15,41 @@
         console.log(index)
          const newState = this.state;
          newState.tasks.splice(index, 1);
-         this.setState(newState); // This will update the state and trigger a rerender of the components
-
+         this.setState(newState); 
     }
     
     addTaskEvent = () => {
      this.setState({
-  		tasks: [...this.state.tasks, this.state.taskName]
+  		tasks: [...this.state.tasks, this.state.taskName],
+        taskName: ''
   	})
   };
    handleSaveTask = event => {
       this.setState({taskName: event.target.value})
+      
     };
+    handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+    
     render() {
       return (
         <div>
-          <input onChange={this.handleSaveTask} />
+          <input onChange={this.handleSaveTask} value={this.state.taskName} />
           <button onClick={this.addTaskEvent}>
             Add
           </button>
           <p>Task: {this.state.tasks.map((item, index) => {
-              return <div key={index} onClick={this.deleteTodo.bind(this, index)}> 
-              <input type="checkbox"/> {item}</div>})}</p>
-        </div>     
+              return <div> 
+              <input name="isGoing" type="checkbox" checked={this.state.haveDone} onChange={this.deleteTodo.bind(this, index)}/> {item}</div>})}
+              </p>
+              </div>     
       );
     }
   }
