@@ -1,0 +1,46 @@
+<div id="root" />
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script type="text/babel">
+  const rootElement = document.getElementById('root');
+  
+  class App extends React.Component {
+    state = {
+      taskName: '',
+      tasks: [],
+      haveDone: false
+    };
+    deleteTodo(index){
+        console.log(index)
+         const newState = this.state;
+         newState.tasks.splice(index, 1);
+         this.setState(newState); // This will update the state and trigger a rerender of the components
+
+    }
+    
+    addTaskEvent = () => {
+     this.setState({
+  		tasks: [...this.state.tasks, this.state.taskName]
+  	})
+  };
+   handleSaveTask = event => {
+      this.setState({taskName: event.target.value})
+    };
+    render() {
+      return (
+        <div>
+          <input onChange={this.handleSaveTask} />
+          <button onClick={this.addTaskEvent}>
+            Add
+          </button>
+          <p>Task: {this.state.tasks.map((item, index) => {
+              return <div key={index} onClick={this.deleteTodo.bind(this, index)}> 
+              <input type="checkbox"/> {item}</div>})}</p>
+        </div>     
+      );
+    }
+  }
+  
+  ReactDOM.render(<App />, rootElement);
+</script>
