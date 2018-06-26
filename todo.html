@@ -11,7 +11,7 @@
       tasks: [],
       haveDone: false
     };
-    deleteTodo(index){
+    deleteTodo = (index) => {
          const newState = this.state;
          newState.tasks.splice(index, 1);
          this.setState(newState); 
@@ -27,11 +27,14 @@
       this.setState({taskName: event.target.value})
       
     };
+    removeAll = event => {
+      this.setState({tasks: []})
+      
+    };
     handleInputChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-
     this.setState({
       [name]: value
     });
@@ -44,9 +47,12 @@
           <button onClick={this.addTaskEvent}>
             Add
           </button>
+          <button onClick={this.removeAll}>
+            Remove All
+          </button>
           <p>Task: {this.state.tasks.map((item, index) => {
               return <div> 
-              <input name="isGoing" type="checkbox" checked={this.state.haveDone} onChange={this.deleteTodo.bind(this, index)}/> {item}</div>})}
+              <input name="isGoing" type="checkbox" checked={this.state.haveDone} onChange={() => this.deleteTodo(index)}/> {item}</div>})}
               </p>
               </div>     
       );

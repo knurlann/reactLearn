@@ -1,0 +1,68 @@
+<div id="root" />
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script type="text/babel">
+    function randomInteger(min, max) {
+    let rand = min + Math.random() * (max + 1 - min);
+    rand = Math.floor(rand);
+    return rand;
+   }
+
+  const rootElement = document.getElementById('root');
+  class App extends React.Component{
+    state = {
+      colorHolder : ['green', 'yellow', 'blue'],
+      currentColor: 'green',
+      currentTextColor:'green',
+      points: 0,
+      randInt:0,
+      hp:3
+    }
+
+
+ChangeColorFunction=(answer)=>{
+  this.setState({
+  currentColor : this.state.colorHolder[randomInteger(0,2)],
+  currentTextColor : this.state.colorHolder[randomInteger(0,2)]
+})
+if (answer==1) {
+  this.state.currentColor === this.state.currentTextColor? this.setState({
+    points:this.state.points+1
+  }):this.setState({
+    hp:this.state.hp-1
+  })
+}else{
+  this.state.currentColor === this.state.currentTextColor? this.setState({
+    hp:this.state.hp-1
+  }):this.setState({
+    points:this.state.points+1
+  })
+}
+this.state.points>9?  alert("you win"): console.log(this.state.points)
+}
+    render(){
+      return(
+        <div>
+        <h1>Your points:{this.state.points}</h1>
+        <h3>Your HP:{this.state.hp}</h3>
+        <div style ={{
+          borderWidth: 1,borderColor: 'black',borderStyle: 'solid',width: 200,height: 200,
+          marginLeft: 500,textAlign: 'center',backgroundColor: this.state.currentColor,
+        }}>{this.state.currentTextColor}</div>
+        <button style ={{
+          borderWidth: 1,borderColor: 'black',borderStyle: 'solid',width: 100,height: 40,
+          marginLeft: 500,textAlign: 'center',backgroundColor:'red',
+        }} onClick = {()=> this.ChangeColorFunction(0)}>False</button>
+        <button style = {{
+          borderWidth: 1,borderColor: 'black',borderStyle: 'solid',
+          width: 100,height: 40,marginTop: -40,
+          textAlign: 'center',backgroundColor:'green'
+        }} onClick = { ()=> this.ChangeColorFunction(1)}>True</button>
+      </div>
+      )
+    }
+  }
+  
+  ReactDOM.render(<App/>, rootElement);
+</script>
